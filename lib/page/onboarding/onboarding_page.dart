@@ -81,7 +81,6 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 itemBuilder: (context, index) {
                   return Column(
                     children: [
-                      // Image.asset(onboardingData[index]['image']!, height: 300),
                       SvgPicture.asset(
                         onboardingData[index]['image']!,
                         height: 300,

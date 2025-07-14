@@ -107,16 +107,11 @@ class _HomePageState extends State<HomePage> {
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: [
-          // Image.asset("assets/svg/banner/ic_mission_banner.svg"),
-          // const SizedBox(width: 8),
-          // Image.asset("assets/svg/banner/ic_promo_flash_coffee.svg"),
-          // const SizedBox(width: 8),
-          // Image.asset("assets/svg/banner/ic_voucher_banner.svg"),
-          SvgPicture.asset("assets/svg/banner/ic_mission_banner.svg"),
+          SvgPicture.asset("assets/banner/ic_mission_banner.svg"),
           const SizedBox(width: 8),
-          SvgPicture.asset("assets/svg/banner/ic_promo_flash_coffee.svg"),
+          SvgPicture.asset("assets/banner/ic_promo_flash_coffee.svg"),
           const SizedBox(width: 8),
-          SvgPicture.asset("assets/svg/banner/ic_voucher_banner.svg"),
+          SvgPicture.asset("assets/banner/ic_voucher_banner.svg"),
         ],
       ),
     );
