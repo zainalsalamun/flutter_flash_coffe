@@ -74,7 +74,7 @@ class OtpPage extends StatelessWidget {
             const Spacer(),
             ElevatedButton(
               onPressed: () {
-                showLocationPermission(context);
+                Navigator.pushNamed(context, '/location-permission');
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: ColorConstant.primaryButton,
