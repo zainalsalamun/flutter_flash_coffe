@@ -51,4 +51,11 @@ class DataDummy {
       price: 28000,
     ),
   ];
+  List<String> banners = [
+    "assets/banner/ic_mission_banner.svg",
+    "assets/banner/ic_promo_flash_coffee.svg",
+    "assets/banner/ic_voucher_banner.svg",
+    "assets/banner/ic_profile_banner.svg",
+    "assets/banner/ic_voucher_banner_.svg",
+  ];
 }
