@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_flash_coffe/data/data_dummy.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
 import 'package:flutter_flash_coffe/constant/color_constant.dart';
 import 'package:flutter_flash_coffe/model/product.dart';
 
@@ -24,11 +23,20 @@ class _HomePageState extends State<HomePage> {
           _buildHeader(),
           Container(
             color: Colors.white,
-            child: const TabBar(
+            child: TabBar(
               labelColor: Colors.black,
+              labelStyle: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
               unselectedLabelColor: Colors.grey,
-              indicatorColor: Color(0xFFFF2D55),
-              tabs: [Tab(text: 'Pickup'), Tab(text: 'Delivery')],
+              unselectedLabelStyle: const TextStyle(
+                fontWeight: FontWeight.w400,
+                fontSize: 16,
+              ),
+              indicatorColor: ColorConstant.primaryButton,
+              indicatorWeight: 3,
+              tabs: const [Tab(text: 'Pickup'), Tab(text: 'Delivery')],
             ),
           ),
           Expanded(
@@ -44,13 +52,28 @@ class _HomePageState extends State<HomePage> {
   Widget _buildHeader() {
     return Container(
       color: ColorConstant.primary,
-      padding: const EdgeInsets.symmetric(vertical: 12),
+      padding: const EdgeInsets.only(top: 48, bottom: 12, left: 16, right: 16),
       child: Column(
-        children: const [
-          Text("Order from 1.07 km", style: TextStyle(color: Colors.pink)),
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
           Text(
-            "Tebet Raya",
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+            "Order from 1.07 km",
+            style: TextStyle(
+              color: ColorConstant.orange10, // Assuming orange/reddish color
+              fontSize: 12,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Row(
+            children: const [
+              Text(
+                "Tebet Raya",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              ),
+              SizedBox(width: 4),
+              Icon(Icons.keyboard_arrow_down, size: 20),
+            ],
           ),
         ],
       ),
@@ -62,6 +85,7 @@ class _HomePageState extends State<HomePage> {
       child: Column(
         children: [
           _buildDeliveryAddress(),
+          const SizedBox(height: 16),
           _buildBanner(),
           _buildSection("RECOMMENDED", DataDummy().recommendedProducts),
           _buildSection(
@@ -77,6 +101,7 @@ class _HomePageState extends State<HomePage> {
     return SingleChildScrollView(
       child: Column(
         children: [
+          const SizedBox(height: 16),
           _buildBanner(),
           _buildSection("RECOMMENDED", DataDummy().recommendedProducts),
           _buildSection(
@@ -89,13 +114,46 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildDeliveryAddress() {
-    return Padding(
-      padding: const EdgeInsets.all(12),
-      child: Row(
-        children: const [
-          Icon(Icons.location_pin, color: Colors.pink),
-          SizedBox(width: 8),
-          Text("Office", style: TextStyle(fontSize: 16)),
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            "DELIVERY TO",
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              letterSpacing: 0.5,
+            ),
+          ),
+          const SizedBox(height: 12),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            decoration: BoxDecoration(
+              color: ColorConstant.formAuth,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.location_on_outlined,
+                  color: ColorConstant.primaryButton,
+                ),
+                const SizedBox(width: 12),
+                const Text(
+                  "Office",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                ),
+                const Spacer(),
+                Icon(
+                  Icons.edit_outlined,
+                  color: ColorConstant.primaryButton,
+                  size: 20,
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -103,16 +161,35 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildBanner() {
     return SizedBox(
-      height: 150,
-      child: ListView(
+      height: 180, // Adjusted height for better visibility
+      child: ListView.builder(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         scrollDirection: Axis.horizontal,
-        children: [
-          SvgPicture.asset("assets/banner/ic_mission_banner.svg"),
-          const SizedBox(width: 8),
-          SvgPicture.asset("assets/banner/ic_promo_flash_coffee.svg"),
-          const SizedBox(width: 8),
-          SvgPicture.asset("assets/banner/ic_voucher_banner.svg"),
-        ],
+        itemCount: DataDummy().banners.length,
+        itemBuilder: (context, index) {
+          return _buildBannerItem(DataDummy().banners[index]);
+        },
+      ),
+    );
+  }
+
+  Widget _buildBannerItem(String assetPath) {
+    return Container(
+      margin: const EdgeInsets.only(right: 12),
+      width: 300, // Explicit width locally to ensure it takes space
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        color: Colors.grey[200], // Enabled placeholder color
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(12),
+        child: SvgPicture.asset(
+          assetPath,
+          fit: BoxFit.cover, // Use cover to ensure it fills
+          height: 180,
+          placeholderBuilder:
+              (context) => const Center(child: CircularProgressIndicator()),
+        ),
       ),
     );
   }
@@ -122,15 +199,28 @@ class _HomePageState extends State<HomePage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-          child: Text(
-            title,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const Text(
+                "5 Item",
+                style: TextStyle(color: Colors.grey, fontSize: 12),
+              ),
+            ],
           ),
         ),
         SizedBox(
-          height: 180,
+          height: 240, // Needs enough height for the larger card
           child: ListView.builder(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             scrollDirection: Axis.horizontal,
             itemCount: items.length,
             itemBuilder: (context, index) => _buildProductCard(items[index]),
@@ -142,38 +232,81 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildProductCard(Product product) {
     return Container(
-      width: 130,
-      margin: const EdgeInsets.symmetric(horizontal: 8),
-      decoration: BoxDecoration(
-        color: Colors.yellow[600],
-        borderRadius: BorderRadius.circular(10),
-      ),
+      width: 160,
+      margin: const EdgeInsets.only(right: 12),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(child: SvgPicture.asset(product.image, fit: BoxFit.contain)),
-          if (product.tag.isNotEmpty)
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
-              color: Colors.green,
-              child: Text(
-                product.tag,
-                style: const TextStyle(color: Colors.white, fontSize: 10),
+          Stack(
+            children: [
+              Container(
+                height: 160,
+                width: 160,
+                decoration: BoxDecoration(
+                  color: ColorConstant.primary, // Yellow background
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(
+                      20.0,
+                    ), // Padding for the image inside
+                    child: SvgPicture.asset(product.image, fit: BoxFit.contain),
+                  ),
+                ),
               ),
-            ),
-          Padding(
-            padding: const EdgeInsets.all(4),
-            child: Column(
-              children: [
-                Text(
-                  product.name,
-                  style: const TextStyle(fontSize: 14),
-                  textAlign: TextAlign.center,
+              // Badge
+              if (product
+                  .tag
+                  .isNotEmpty) // Assuming all have it or checking tag
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
+                    decoration: BoxDecoration(
+                      color: ColorConstant.green70,
+                      borderRadius: const BorderRadius.only(
+                        bottomLeft: Radius.circular(12),
+                        topRight: Radius.circular(12),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: const [
+                        Icon(Icons.flash_on, color: Colors.white, size: 12),
+                        SizedBox(width: 4),
+                        Text(
+                          "Rekomendasi", // Hardcoded per design or use product.tag
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 10,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-                Text(
-                  "Rp ${product.price}",
-                  style: const TextStyle(color: Colors.pink),
-                ),
-              ],
+            ],
+          ),
+          const SizedBox(height: 8),
+          Text(
+            product.name,
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+          const SizedBox(height: 4),
+          Text(
+            "Rp ${product.price}",
+            style: TextStyle(
+              color: ColorConstant.primaryButton, // Pink/Red
+              fontWeight: FontWeight.bold,
+              fontSize: 14,
             ),
           ),
         ],
