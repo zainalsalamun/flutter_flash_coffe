@@ -183,13 +183,24 @@ class _HomePageState extends State<HomePage> {
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(12),
-        child: SvgPicture.asset(
-          assetPath,
-          fit: BoxFit.cover, // Use cover to ensure it fills
-          height: 180,
-          placeholderBuilder:
-              (context) => const Center(child: CircularProgressIndicator()),
-        ),
+        child:
+            assetPath.endsWith('.svg')
+                ? SvgPicture.asset(
+                  assetPath,
+                  fit: BoxFit.cover, // Use cover to ensure it fills
+                  height: 180,
+                  placeholderBuilder:
+                      (context) =>
+                          const Center(child: CircularProgressIndicator()),
+                )
+                : Image.asset(
+                  assetPath,
+                  fit: BoxFit.cover,
+                  height: 180,
+                  errorBuilder: (context, error, stackTrace) {
+                    return const Center(child: Icon(Icons.broken_image));
+                  },
+                ),
       ),
     );
   }
@@ -251,7 +262,13 @@ class _HomePageState extends State<HomePage> {
                     padding: const EdgeInsets.all(
                       20.0,
                     ), // Padding for the image inside
-                    child: SvgPicture.asset(product.image, fit: BoxFit.contain),
+                    child:
+                        product.image.endsWith('.svg')
+                            ? SvgPicture.asset(
+                              product.image,
+                              fit: BoxFit.contain,
+                            )
+                            : Image.asset(product.image, fit: BoxFit.contain),
                   ),
                 ),
               ),
