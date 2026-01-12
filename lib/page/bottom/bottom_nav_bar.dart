@@ -3,6 +3,7 @@ import 'package:flutter_flash_coffe/constant/color_constant.dart';
 import 'package:flutter_flash_coffe/page/home/home_page.dart';
 import 'package:flutter_flash_coffe/page/home/menu_page.dart';
 import 'package:flutter_flash_coffe/page/promo/promo_page.dart';
+import 'package:flutter_flash_coffe/page/profile/profile_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class BottomNavScaffold extends StatefulWidget {
@@ -19,7 +20,7 @@ class _BottomNavScaffoldState extends State<BottomNavScaffold> {
     const HomePage(isDelivery: false),
     const MenuPage(),
     const PromoPage(),
-    const Center(child: Text("Profile")),
+    const ProfilePage(),
   ];
 
   @override
