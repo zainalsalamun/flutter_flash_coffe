@@ -457,23 +457,23 @@ class PromoPage extends StatelessWidget {
       child: Column(
         children: [
           _buildVoucherCard(
-            image: "assets/banner/ic_voucher_banner.svg",
-            title: "Flash with Benefit 25%",
-            validity: "Valid until 14 February 2023",
+            image: "assets/banner/voucher_5x25.png",
+            title: "Voucher 5x25% Khusus Untukmu",
+            validity: "Valid until 31 December 2026",
             buttonText: "CLAIM",
           ),
           const SizedBox(height: 16),
           _buildVoucherCard(
-            image: "assets/banner/ic_voucher_banner_.svg",
-            title: "Flash with Benefit 25%",
-            validity: "Valid until 14 February 2023",
+            image: "assets/banner/voucher_free_cookie.png",
+            title: "Free Chocolate Chip Cookie",
+            validity: "Valid until 12 February 2026",
             buttonText: "CLAIM",
           ),
           const SizedBox(height: 16),
           _buildVoucherCard(
             image: "assets/banner/ic_voucher_banner.svg",
             title: "Flash with Benefit 25%",
-            validity: "Valid until 14 February 2023",
+            validity: "Valid until 14 February 2026",
             buttonText: "CLAIM",
           ),
         ],
@@ -505,12 +505,20 @@ class PromoPage extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-            child: SvgPicture.asset(
-              image,
-              width: double.infinity,
-              height: 150,
-              fit: BoxFit.cover,
-            ),
+            child:
+                image.endsWith('.svg')
+                    ? SvgPicture.asset(
+                      image,
+                      width: double.infinity,
+                      height: 150,
+                      fit: BoxFit.cover,
+                    )
+                    : Image.asset(
+                      image,
+                      width: double.infinity,
+                      height: 150,
+                      fit: BoxFit.cover,
+                    ),
           ),
           Padding(
             padding: const EdgeInsets.all(16),
